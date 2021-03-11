@@ -1,4 +1,10 @@
-import { createAction, createReducer, on } from '@ngrx/store';
+import {
+  createAction,
+  createFeatureSelector,
+  createReducer,
+  createSelector,
+  on,
+} from '@ngrx/store';
 import * as AppState from '../../state/app.state';
 
 import { Product } from '../product';
@@ -20,6 +26,27 @@ const initialState: ProductState = {
   currentProduct: null,
   products: [],
 };
+
+// will get whole slice of state for product feature
+// can only be used inside this code file no export
+// order of these consts are important
+const getProductFeatureState = createFeatureSelector<ProductState>('products');
+
+// selectors to be used anywhere in the app thus export
+export const getShowProductCode = createSelector(
+  getProductFeatureState,
+  (state) => state.showProductCode
+);
+
+export const getCurrentProduct = createSelector(
+  getProductFeatureState,
+  (state) => state.currentProduct
+);
+
+export const getProducts = createSelector(
+  getProductFeatureState,
+  (state) => state.products
+);
 
 // reducer defines our initial state
 export const productReducer = createReducer<ProductState>(

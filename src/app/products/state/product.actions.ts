@@ -15,3 +15,19 @@ export const clearCurrentProduct = createAction(
 export const initializeCurrentProduct = createAction(
   '[Product] Initialize Current Product'
 );
+
+// Load Actions
+// for complex operations like http call we need at least 3 actions
+// Load/Init, Success, Failure
+export const loadProducts = createAction('[Product] Load'); // kick off action
+
+// handle result of operation
+export const loadProductsSuccess = createAction(
+  '[Product] Load Success',
+  props<{ products: Product[] }>()
+);
+
+export const loadProductsFailure = createAction(
+  '[Product] Load Fail',
+  props<{ error: string }>()
+);

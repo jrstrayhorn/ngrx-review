@@ -16,12 +16,15 @@ export interface ProductState {
 }
 
 // reducer defines our initial state
-export const productReducer = createReducer(
-  { showProductCode: true },
-  on(createAction('[Product] Toggle Product Code'), (state) => {
-    return {
-      ...state,
-      showProductCode: !state.showProductCode,
-    };
-  })
+export const productReducer = createReducer<ProductState>(
+  { showProductCode: true } as ProductState,
+  on(
+    createAction('[Product] Toggle Product Code'),
+    (state): ProductState => {
+      return {
+        ...state,
+        showProductCode: !state.showProductCode,
+      };
+    }
+  )
 );

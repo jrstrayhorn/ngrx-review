@@ -1,7 +1,6 @@
-import { ProductState } from '../products/state/product.reducer';
-
 // defining state for entire app
+// if using state from eagerly loaded feature module
+// define here
 export interface State {
-  products: ProductState;
   user: any;
 }

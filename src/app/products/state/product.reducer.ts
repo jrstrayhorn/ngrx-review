@@ -6,6 +6,8 @@ import {
   on,
 } from '@ngrx/store';
 import * as AppState from '../../state/app.state';
+// creating ProductActions namespace
+import * as ProductActions from './product.actions';
 
 import { Product } from '../product';
 
@@ -75,11 +77,44 @@ export const getCurrentProductById = createSelector(
 export const productReducer = createReducer<ProductState>(
   initialState,
   on(
-    createAction('[Product] Toggle Product Code'),
+    ProductActions.toggleProductCode,
     (state): ProductState => {
       return {
         ...state,
         showProductCode: !state.showProductCode,
+      };
+    }
+  ),
+  on(
+    ProductActions.setCurrentProduct,
+    (state, action): ProductState => {
+      return {
+        ...state,
+        currentProduct: action.product,
+      };
+    }
+  ),
+  on(
+    ProductActions.initializeCurrentProduct,
+    (state): ProductState => {
+      return {
+        ...state,
+        currentProduct: null,
+      };
+    }
+  ),
+  on(
+    ProductActions.clearCurrentProduct,
+    (state): ProductState => {
+      return {
+        ...state,
+        currentProduct: {
+          productCode: 'New',
+          productName: '',
+          id: 0,
+          starRating: 0,
+          description: '',
+        },
       };
     }
   )

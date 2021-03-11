@@ -3,8 +3,10 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { filter, tap } from 'rxjs/operators';
+import { State } from '../state/app.state';
 
 import { AuthService } from './auth.service';
+import { getMaskUserName } from './state/user.reducer';
 
 @Component({
   templateUrl: './login.component.html',
@@ -15,19 +17,18 @@ export class LoginComponent implements OnInit {
 
   maskUserName: boolean;
 
+  // strongly type state
+  // 4 - modify component to use strongly typed state/selector
   constructor(
-    private store: Store<any>,
+    private store: Store<State>,
     private authService: AuthService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
     this.store
-      .select('users')
-      .pipe(
-        filter((users) => users),
-        tap((users) => (this.maskUserName = users.maskUserName))
-      )
+      .select(getMaskUserName)
+      .pipe(tap((maskUserName) => (this.maskUserName = maskUserName)))
       .subscribe();
   }
 

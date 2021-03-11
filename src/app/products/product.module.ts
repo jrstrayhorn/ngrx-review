@@ -7,19 +7,21 @@ import { ProductShellComponent } from './product-shell/product-shell.component';
 import { ProductListComponent } from './product-list/product-list.component';
 import { ProductEditComponent } from './product-edit/product-edit.component';
 
-const productRoutes: Routes = [
-  { path: '', component: ProductShellComponent }
-];
+/* NgRx */
+import { StoreModule } from '@ngrx/store';
+
+const productRoutes: Routes = [{ path: '', component: ProductShellComponent }];
 
 @NgModule({
   imports: [
     SharedModule,
-    RouterModule.forChild(productRoutes)
+    RouterModule.forChild(productRoutes),
+    StoreModule.forFeature('products', {}),
   ],
   declarations: [
     ProductShellComponent,
     ProductListComponent,
-    ProductEditComponent
-  ]
+    ProductEditComponent,
+  ],
 })
-export class ProductModule { }
+export class ProductModule {}

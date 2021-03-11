@@ -1,6 +1,6 @@
 import { createAction, createReducer, on } from '@ngrx/store';
 
-// reducer defines our state
+// reducer defines our initial state
 export const productReducer = createReducer(
   { showProductCode: true },
   on(createAction('[Product] Toggle Product Code'), (state) => {

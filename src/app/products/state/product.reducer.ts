@@ -99,7 +99,13 @@ export const productReducer = createReducer<ProductState>(
     (state): ProductState => {
       return {
         ...state,
-        currentProduct: null,
+        currentProduct: {
+          productCode: 'New',
+          productName: '',
+          id: 0,
+          starRating: 0,
+          description: '',
+        },
       };
     }
   ),
@@ -108,13 +114,7 @@ export const productReducer = createReducer<ProductState>(
     (state): ProductState => {
       return {
         ...state,
-        currentProduct: {
-          productCode: 'New',
-          productName: '',
-          id: 0,
-          starRating: 0,
-          description: '',
-        },
+        currentProduct: null,
       };
     }
   )

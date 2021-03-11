@@ -18,6 +18,7 @@ export interface State extends AppState.State {
 export interface ProductState {
   showProductCode: boolean;
   currentProduct: Product;
+  currentProductId: number;
   products: Product[];
 }
 
@@ -25,6 +26,7 @@ const initialState: ProductState = {
   showProductCode: true,
   currentProduct: null,
   products: [],
+  currentProductId: 0,
 };
 
 // will get whole slice of state for product feature
@@ -47,6 +49,27 @@ export const getProducts = createSelector(
   getProductFeatureState,
   (state) => state.products
 );
+
+// example of composing selectors
+export const getCurrentProductId = createSelector(
+  getProductFeatureState,
+  (state) => state.currentProductId
+);
+
+export const getCurrentProductById = createSelector(
+  getProductFeatureState,
+  getCurrentProductId,
+  (
+    state,
+    currentProductId // getting properties from list of composed selectors
+  ) => state.products.find((p) => p.id === currentProductId)
+);
+
+// should create a selector for each bit of state you have
+// then compose them together based on what you need for
+// component
+// this helps with encapsulating the state allows easier changes
+// to store/state over time
 
 // reducer defines our initial state
 export const productReducer = createReducer<ProductState>(

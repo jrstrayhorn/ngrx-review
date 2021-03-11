@@ -41,11 +41,11 @@ export class ProductListComponent implements OnInit, OnDestroy {
     });
 
     // TODO: Unsubscribe
-    this.store.select('products').subscribe((products) => {
-      if (products) {
-        this.displayCode = products.showProductCode;
-      }
-    });
+    // since product state is initially defined in reducer
+    // no need to check if exists
+    this.store
+      .select('products')
+      .subscribe((products) => (this.displayCode = products.showProductCode));
   }
 
   ngOnDestroy(): void {

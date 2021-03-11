@@ -116,5 +116,14 @@ export const productReducer = createReducer<ProductState>(
         currentProduct: null,
       };
     }
+  ),
+  on(
+    ProductActions.loadProductsSuccess,
+    (state, action): ProductState => {
+      return {
+        ...state,
+        products: action.products,
+      };
+    }
   )
 );

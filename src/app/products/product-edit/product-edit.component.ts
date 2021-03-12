@@ -154,7 +154,7 @@ export class ProductEditComponent implements OnInit {
           this.productService.createProduct(product).subscribe({
             next: (p) =>
               this.store.dispatch(
-                ProductActions.setCurrentProduct({ product: p })
+                ProductActions.setCurrentProduct({ currentProductId: p.id })
               ),
             error: (err) => (this.errorMessage = err),
           });
@@ -162,7 +162,7 @@ export class ProductEditComponent implements OnInit {
           this.productService.updateProduct(product).subscribe({
             next: (p) =>
               this.store.dispatch(
-                ProductActions.setCurrentProduct({ product: p })
+                ProductActions.setCurrentProduct({ currentProductId: p.id })
               ),
             error: (err) => (this.errorMessage = err),
           });

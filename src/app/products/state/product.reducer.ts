@@ -21,6 +21,7 @@ export interface ProductState {
   currentProduct: Product;
   currentProductId: number;
   products: Product[];
+  error: string;
 }
 
 const initialState: ProductState = {
@@ -28,6 +29,7 @@ const initialState: ProductState = {
   currentProduct: null,
   products: [],
   currentProductId: 0,
+  error: '',
 };
 
 // will get whole slice of state for product feature
@@ -64,6 +66,11 @@ export const getCurrentProductById = createSelector(
     state,
     currentProductId // getting properties from list of composed selectors
   ) => state.products.find((p) => p.id === currentProductId)
+);
+
+export const getError = createSelector(
+  getProductFeatureState,
+  (state) => state.error
 );
 
 // should create a selector for each bit of state you have
@@ -123,6 +130,17 @@ export const productReducer = createReducer<ProductState>(
       return {
         ...state,
         products: action.products,
+        error: '',
+      };
+    }
+  ),
+  on(
+    ProductActions.loadProductsFailure,
+    (state, action): ProductState => {
+      return {
+        ...state,
+        products: [],
+        error: action.error,
       };
     }
   )

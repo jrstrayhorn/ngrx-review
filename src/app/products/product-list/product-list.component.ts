@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { Product } from '../product';
 import {
   getCurrentProduct,
+  getError,
   getProducts,
   getShowProductCode,
   State,
@@ -20,7 +21,7 @@ import * as ProductActions from '../state/product.actions';
 })
 export class ProductListComponent implements OnInit {
   pageTitle = 'Products';
-  errorMessage: string;
+  // errorMessage: string;
 
   // no longer need these local properties b/c of store observables below
   // displayCode: boolean;
@@ -32,6 +33,7 @@ export class ProductListComponent implements OnInit {
   products$: Observable<Product[]>;
   selectedProduct$: Observable<Product>;
   displayCode$: Observable<boolean>;
+  errorMessage$: Observable<string>;
 
   // importing state from product.reducer instead of app.state
   constructor(private store: Store<State>) {}
@@ -42,6 +44,8 @@ export class ProductListComponent implements OnInit {
     //   error: (err) => (this.errorMessage = err),
     // });
     this.products$ = this.store.select(getProducts);
+
+    this.errorMessage$ = this.store.select(getError);
 
     this.store.dispatch(ProductActions.loadProducts());
 

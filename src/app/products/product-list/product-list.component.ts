@@ -1,13 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { Product } from '../product';
-import { ProductService } from '../product.service';
 import {
   getCurrentProduct,
-  getCurrentProductId,
   getProducts,
   getShowProductCode,
   State,
@@ -24,29 +22,21 @@ export class ProductListComponent implements OnInit {
   pageTitle = 'Products';
   errorMessage: string;
 
-  displayCode: boolean;
+  // no longer need these local properties b/c of store observables below
+  // displayCode: boolean;
 
-  products: Product[];
+  // products: Product[];
 
-  // Used to highlight the selected product in the list
-  selectedProduct: Product | null;
+  // // Used to highlight the selected product in the list
+  // selectedProduct: Product | null;
   products$: Observable<Product[]>;
+  selectedProduct$: Observable<Product>;
+  displayCode$: Observable<boolean>;
 
   // importing state from product.reducer instead of app.state
-  constructor(
-    private store: Store<State>,
-    private productService: ProductService
-  ) {}
+  constructor(private store: Store<State>) {}
 
   ngOnInit(): void {
-    // this.sub = this.productService.selectedProductChanges$.subscribe(
-    //   (currentProduct) => (this.selectedProduct = currentProduct)
-    // );
-    // TODO: Unsubscribe
-    this.store
-      .select(getCurrentProduct)
-      .subscribe((currentProduct) => (this.selectedProduct = currentProduct));
-
     // this.productService.getProducts().subscribe({
     //   next: (products: Product[]) => (this.products = products),
     //   error: (err) => (this.errorMessage = err),
@@ -55,12 +45,14 @@ export class ProductListComponent implements OnInit {
 
     this.store.dispatch(ProductActions.loadProducts());
 
-    // TODO: Unsubscribe
+    // this.sub = this.productService.selectedProductChanges$.subscribe(
+    //   (currentProduct) => (this.selectedProduct = currentProduct)
+    // );
+    this.selectedProduct$ = this.store.select(getCurrentProduct);
+
     // since product state is initially defined in reducer
     // no need to check if exists
-    this.store
-      .select(getShowProductCode)
-      .subscribe((showProductCode) => (this.displayCode = showProductCode));
+    this.displayCode$ = this.store.select(getShowProductCode);
   }
 
   checkChanged(): void {

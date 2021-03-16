@@ -11,7 +11,7 @@ import {
   getProducts,
   getShowProductCode,
   State,
-} from '../state/product.reducer';
+} from '../state';
 
 import * as ProductActions from '../state/product.actions';
 

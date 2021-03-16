@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { Product } from '../product';
-import * as ProductActions from './product.actions';
+import { ProductPageActions, ProductApiActions } from './actions';
 
 export interface ProductState {
   showProductCode: boolean;
@@ -20,7 +20,7 @@ const initialState: ProductState = {
 export const productReducer = createReducer<ProductState>(
   initialState,
   on(
-    ProductActions.toggleProductCode,
+    ProductPageActions.toggleProductCode,
     (state): ProductState => {
       return {
         ...state,
@@ -29,7 +29,7 @@ export const productReducer = createReducer<ProductState>(
     }
   ),
   on(
-    ProductActions.setCurrentProduct,
+    ProductPageActions.setCurrentProduct,
     (state, action): ProductState => {
       return {
         ...state,
@@ -38,7 +38,7 @@ export const productReducer = createReducer<ProductState>(
     }
   ),
   on(
-    ProductActions.initializeCurrentProduct,
+    ProductPageActions.initializeCurrentProduct,
     (state): ProductState => {
       return {
         ...state,
@@ -47,7 +47,7 @@ export const productReducer = createReducer<ProductState>(
     }
   ),
   on(
-    ProductActions.clearCurrentProduct,
+    ProductPageActions.clearCurrentProduct,
     (state): ProductState => {
       return {
         ...state,
@@ -56,7 +56,7 @@ export const productReducer = createReducer<ProductState>(
     }
   ),
   on(
-    ProductActions.loadProductsSuccess,
+    ProductApiActions.loadProductsSuccess,
     (state, action): ProductState => {
       return {
         ...state,
@@ -66,7 +66,7 @@ export const productReducer = createReducer<ProductState>(
     }
   ),
   on(
-    ProductActions.loadProductsFailure,
+    ProductApiActions.loadProductsFailure,
     (state, action): ProductState => {
       return {
         ...state,
@@ -76,7 +76,7 @@ export const productReducer = createReducer<ProductState>(
     }
   ),
   on(
-    ProductActions.updateProductSuccess,
+    ProductApiActions.updateProductSuccess,
     (state, action): ProductState => {
       const updatedProducts = state.products.map((item) =>
         action.product.id === item.id ? action.product : item
@@ -90,7 +90,7 @@ export const productReducer = createReducer<ProductState>(
     }
   ),
   on(
-    ProductActions.updateProductFailure,
+    ProductApiActions.updateProductFailure,
     (state, action): ProductState => {
       return {
         ...state,

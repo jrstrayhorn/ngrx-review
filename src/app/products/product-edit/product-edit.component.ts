@@ -9,9 +9,9 @@ import { NumberValidators } from '../../shared/number.validator';
 /* NgRx */
 import { Store } from '@ngrx/store';
 import { State, getCurrentProduct } from '../state';
-import * as ProductActions from '../state/product.actions';
 import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { ProductPageActions } from '../state/actions';
 
 @Component({
   selector: 'pm-product-edit',
@@ -130,14 +130,15 @@ export class ProductEditComponent implements OnInit {
     if (product && product.id) {
       if (confirm(`Really delete the product: ${product.productName}?`)) {
         this.productService.deleteProduct(product.id).subscribe({
-          next: () => this.store.dispatch(ProductActions.clearCurrentProduct()), // this.productService.changeSelectedProduct(null),
+          next: () =>
+            this.store.dispatch(ProductPageActions.clearCurrentProduct()), // this.productService.changeSelectedProduct(null),
           error: (err) => (this.errorMessage = err),
         });
       }
     } else {
       // No need to delete, it was never saved
       // this.productService.changeSelectedProduct(null);
-      this.store.dispatch(ProductActions.clearCurrentProduct());
+      this.store.dispatch(ProductPageActions.clearCurrentProduct());
     }
   }
 
@@ -154,7 +155,7 @@ export class ProductEditComponent implements OnInit {
           this.productService.createProduct(product).subscribe({
             next: (p) =>
               this.store.dispatch(
-                ProductActions.setCurrentProduct({ currentProductId: p.id })
+                ProductPageActions.setCurrentProduct({ currentProductId: p.id })
               ),
             error: (err) => (this.errorMessage = err),
           });
@@ -166,7 +167,7 @@ export class ProductEditComponent implements OnInit {
           //     ),
           //   error: (err) => (this.errorMessage = err),
           // });
-          this.store.dispatch(ProductActions.updateProduct({ product }));
+          this.store.dispatch(ProductPageActions.updateProduct({ product }));
         }
       }
     }
